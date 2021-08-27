@@ -1,0 +1,158 @@
+" {{ VIMRC Configuration  }}
+
+" {{ Environment variables }}
+let $RTP=split(&runtimepath, ',')[0]
+let $VIMRC="$HOME/.vim/vimrc"
+let $KP_DIR="$HOME/profile.d/util/vim/keywordprg"
+
+" {{ Leader key }}
+let mapleader=" "                                               " Set leader key
+
+" {{ Bisics }}
+filetype plugin indent on                                       " Add filetype, plugin, and indent support
+filetype off                                                    " Required
+syntax on                                                       " Turn on syntax highlighting
+
+" {{ Settings }}
+set number                                                      " Display line number
+set relativenumber                                              " Show the line number relative to the line
+set title                                                       " The title of the window will be set
+set ruler                                                       " Show the line and column number of the cursor position
+set nocompatible                                                " Making Vim either more Vi-compatible
+set wildmenu                                                    " Display matches in command-line mode
+set wrap                                                        " Wrap content
+set expandtab                                                   " Prefer spaces over tabs in general
+set tabstop=2                                                   " One tab == two spaces
+set softtabstop=2                                               " It's useful if you want to keep the default tab stop size
+set shiftwidth=2                                                " One tab == two spaces
+set autoindent                                                  " Indent code
+set textwidth=120                                               " Maximum width of text
+set colorcolumn=80                                              " Screen columns
+set hidden                                                      " Prefer hiding over unloading buffers
+set wildcharm=<C-z>                                             " Macro-compatible command-line wildchar
+set path=.,**                                                   " Relative to current file and everything under :pwd
+set wildignore=**/node_modules/**,**/dist/**,*.pyc              " A file that matches with one of the patterns
+set noswapfile                                                  " Disables swapfiles
+set tags=./tags;,tags;                                          " Find tags relative to current file and directory
+set t_BE=                                                       " Disable bracketed paste mode
+set visualbell                                                  " Blink cursos on error instead of beeping (grr)
+set undofile                                                    " Saves undo history to an undo file
+set undolevels=1000                                             " Maximum number of changes that can be undone
+set history=1000                                                " History of previous search patterns is remembered
+set undodir=~/.vim/undodir                                      " List of directory names for undo files
+set term=xterm
+
+" {{ Status bar settings }}
+set laststatus=2                                                " Show the statusline
+set showmode                                                    " Put a message on the last line
+set showcmd                                                     " Show (partial) command in the last line of the screen
+set statusline=                                                 " Edit statusline
+set statusline+=%#DiffAdd#%{(mode()=='n')?'\ \ NORMAL\ ':''}    " Normal mode highlighted
+set statusline+=%#DiffChange#%{(mode()=='i')?'\ \ INSERT\ ':''} " Insert mode highlighted
+set statusline+=%#DiffDelete#%{(mode()=='r')?'\ \ RPLACE\ ':''} " Replace mode highlighted
+set statusline+=%#Cursor#%{(mode()=='v')?'\ \ VISUAL\ ':''}     " Visual mode highlighted
+set statusline+=\ %n\                                           " Buffer number
+set statusline+=%#Visual#                                       " Colour
+set statusline+=%{&paste?'\ PASTE\ ':''}
+set statusline+=%{&spell?'\ SPELL\ ':''}
+set statusline+=%#CursorIM#                                     " Colour
+set statusline+=%R                                              " Readonly flag
+set statusline+=%M                                              " Modified [+] flag
+set statusline+=%#Cursor#                                       " Colour
+set statusline+=%#CursorLine#                                   " Colour
+set statusline+=\ %t                                            " Short file name
+set statusline+=%=                                              " Right align
+set statusline+=%#CursorLine#                                   " Colour
+set statusline+=\ %Y                                            " File type
+set statusline+=%#CursorIM#                                     " Colour
+set statusline+=\ %3l:%-2c                                      " Line + column
+set statusline+=%#Cursor#                                       " Colour
+set statusline+=\ %3p%%                                         " Porcentage
+
+" {{ Cursor motion }}
+set scrolloff=3                                                 " Minimal number of screen lines to keep above and below the cursor
+set backspace=indent,eol,start                                  " Backspace everything in insert mode
+set matchpairs+=<:>                                             " Use % to jump between pairs
+runtime! macros/matchit.vim
+
+" {{ Visualizr tabs and newlines }}
+" Or use your leader key + l to toggle on/off
+set listchars=tab:▸\ ,eol:¬                                     " Strings to use in 'list' mode
+map <leader>l :set list!<CR>
+
+" {{ Highlight matching search patterns }}
+set incsearch
+set ignorecase                                                  " Include matching uppercase words with lowercase search term
+set smartcase                                                   " Include only uppercase words with uppercase search term
+set ttyfast                                                     " Send more characters for redraws
+
+" {{ Enable mouse use in all mode }}
+" set mouse=a
+
+" {{ Colorscheme }}
+set background=dark                                             " Background in used
+set t_Co=256                                                    " Colous in used
+set t_Co=256                                                    " Set if term supports 256 colors
+colorscheme gruvbox                                             " Theme set
+let g:rainbow_active = 1                                        " Vim Rainbow
+
+" {{ Plugins }}
+call plug#begin('~/.vim/plugged')
+
+" Fugitive Vim Github Wrapper
+Plug 'tpope/vim-fugitive'
+
+" {{ The basics }}
+Plug 'gmarik/Vundle.vim'                                        " Vundle
+" Plug 'itchyny/lightline.vim'                                    " Lightline statusbar
+Plug 'suan/vim-instant-markdown', {'rtp': 'after'}              " Markdown Preview
+Plug 'frazrepo/vim-rainbow'                                     " Show paren differentely
+
+" {{ File managment }}
+Plug 'vifm/vifm.vim'                                            " Vifm
+Plug 'scrooloose/nerdtree'                                      " Nerdtree
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'                  " Highlighting Nerdtree
+Plug 'ryanoasis/vim-devicons'                                   " Icons for Nerdtree
+
+"{{ Productivity  }}
+Plug 'vimwiki/vimwiki'                                          " VimWiki
+Plug 'jreybert/vimagit'                                         " Magit-like plugin for vim
+" Plug 'valloric/youcompleteme'
+Plug 'mattn/emmet-vim'                                          " Abbreviations for HTML
+Plug 'townk/vim-autoclose'                                      " Autoclose
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}                 " Autocompletion
+
+" {{ Syntax and colors }}
+Plug 'vim-python/python-syntax'                                 " Python highlighting
+Plug 'ap/vim-css-color'                                         " Color previews for CSS
+Plug 'junegunn/vim-emoji'                                       " Vim needs emojis!
+Plug 'elzr/vim-json'                                            " Json highlighting
+Plug 'ntpeters/vim-better-whitespace'                           " Highlight whitespaces
+Plug 'ekalinin/dockerfile.vim'                                  " Dockerfile Highlighting
+Plug 'othree/html5.vim'                                         " HTML syntax highlighting
+Plug 'jiangmiao/auto-pairs'                                     " Insert/delete b, p, q
+
+"{{ Navigation }}
+Plug 'christoomey/vim-tmux-navigator'                           " Lets navigates as Tmux
+Plug 'junegunn/fzf', {'do': { -> fzf#install()}}                " Finder
+Plug 'junegunn/fzf.vim'                                         " Finder
+Plug 'scrooloose/nerdcommenter'                                 " Commnet functions
+Plug 'sjl/gundo.vim'                                            " Visualize undo tree
+Plug 'ervandew/supertab'                                        " Help tab to complete
+
+" {{ Themes }}
+Plug 'jcherven/jummidark.vim'
+Plug 'morhetz/gruvbox'
+Plug 'joshdick/onedark.vim'
+Plug 'cocopon/iceberg.vim'
+Plug 'ale-cci/aqua-vim'
+Plug 'dikiaap/minimalist'
+Plug 'jonathanfilip/vim-lucius'
+Plug 'whatyouhide/vim-gotham'
+
+call plug#end()
+
+" Call the .vimrc.plug file
+" if filereadable(expand("~/.vim/.vimrc.plug"))
+"   source ~/.vim/.vimrc.plug
+" endif
